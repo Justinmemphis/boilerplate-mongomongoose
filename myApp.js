@@ -102,7 +102,7 @@ const queryChain = (done) => {
                           .select({ age: 0 })
                           .exec( (err, people) => {
                             if(err) return console.log(err);
-                            done(null, personName);
+                            done(null, foodToSearch);
                           })
 };
 
