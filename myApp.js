@@ -22,35 +22,35 @@ var arrayOfPeople = [
 const createAndSavePerson = (done) => {
   const joeBiden = new Person({name: "Joe Biden", age: 78, favoriteFoods: ["pasta", "milk", "ice cream"]});
 
-  joeBiden.save(function(err, data) {
+  joeBiden.save( (err, data) => {
     if (err) return console.error(err);
     done(null, data)
   });
 };
 
 const createManyPeople = (arrayOfPeople, done) => {
-  Person.create(arrayOfPeople, function (err, people) {
+  Person.create(arrayOfPeople, (err, people) => {
     if (err) return console.log(err);
     done(null, people);
   });
 };
 
 const findPeopleByName = (personName, done) => {
-  Person.find({name: personName}, function(err, personFound) {
+  Person.find({name: personName}, (err, personFound) => {
     if (err) return console.log(err);
     done(null, personFound);
   });
 };
 
 const findOneByFood = (food, done) => {
-  Person.findOne({favoriteFoods: food}, function(err, personFound) {
+  Person.findOne({favoriteFoods: food}, (err, personFound) => {
     if (err) return console.log(err);
     done(null, personFound);
   });
 };
 
 const findPersonById = (personId, done) => {
-  Person.findById({_id: personId}, function(err, personFound) {
+  Person.findById({_id: personId}, (err, personFound) => {
     if (err) return console.log(err);
     done(null, personFound);
   });
@@ -59,7 +59,14 @@ const findPersonById = (personId, done) => {
 const findEditThenSave = (personId, done) => {
   const foodToAdd = "hamburger";
 
-  done(null /*, data*/);
+  Person.findById({_id: personId}, (err, person) => {
+    if (err) return console.log(err);
+    person.favoriteFoods.push(foodToAdd);
+    person.save((err, updatedPerson) => {
+      if(err) return console.log(err);
+      done(null, updatedPerson)
+    })
+  })
 };
 
 const findAndUpdate = (personName, done) => {
